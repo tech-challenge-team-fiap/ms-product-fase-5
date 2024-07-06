@@ -1,0 +1,50 @@
+name: Docker Build And Deploy to AWS ECR
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/*
+  workflow_run:
+    workflows: [ "Check Quality with SonarCloud" ]
+    types:
+      - completed
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Check status workflow previous
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        run: echo "Worflow are sucess, next task"
+      - name: Other taks
+        run: echo "Starting next task"
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
+      - name: Create ECR repository if it does not exist
+        id: create-repo
+        run: |
+          aws ecr describe-repositories --repository-names tc-ms-product || aws ecr create-repository --repository-name tc-ms-product
+        env:
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+      - name: Build, tag, and push image to Amazon ECR 
+        run: |
+          docker build -t tc-ms-product .
+          docker tag tc-ms-product:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/tc-ms-product:latest
+          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/tc-ms-product:latest
+        env:
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
