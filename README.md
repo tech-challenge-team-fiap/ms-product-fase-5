@@ -1,5 +1,5 @@
 # Microservice de Cadastro de Produto
-### Tech Challenge | Fase 4 | Pós Software Architecture - FIAP
+### Tech Challenge | Fase 5 | Pós Software Architecture - FIAP
 Este projeto é um microserviço para cadastro de produtos em uma base de dados SQL MySql8, utilizando Terraform para gerenciamento de infraestrutura. Abaixo estão os detalhes técnicos e as instruções para configuração e execução do projeto.
 
 ## Stack Utilizada
@@ -92,7 +92,6 @@ Os testes utilizam Mockito para simular o comportamento dos objetos e verificar 
 
 ### Group
 - [Thales Jolo](https://github.com/orgs/tech-challenge-team-fiap/people/thalesjolo)
-- [Erikson Bastos](https://github.com/orgs/tech-challenge-team-fiap/people/EriksonB)
 - [Samuel Almeida](https://github.com/orgs/tech-challenge-team-fiap/people/samucatezu)
 - [Jair Cavalcante](https://github.com/orgs/tech-challenge-team-fiap/people/jaircavalcante)
 - [Diego Fontgalland](https://github.com/orgs/tech-challenge-team-fiap/people/fontgalland)
