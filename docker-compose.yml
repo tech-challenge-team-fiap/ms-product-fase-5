@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: "mysql:8.0"
+    container_name: tech-challenge-product-db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: root
+    networks:
+      - tech-challenge-network
+    volumes:
+      - ~/mysql/mysql:/var/lib/mysql
+
+  product-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tech-challenge-product-db?createDatabaseIfNotExist=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&enabledTLSProtocols=TLSv1,TLSv1.1,TLSv1.2&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - tech-challenge-network
+    depends_on:
+      - mysql
+    volumes:
+      - .m2:/root/.m2
+
+networks:
+  tech-challenge-network:

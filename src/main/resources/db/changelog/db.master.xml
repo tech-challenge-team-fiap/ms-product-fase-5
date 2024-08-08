@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!-- The changeset file names must follow the convention below:
+         - a sequential value;
+         - version number;
+         - short description.
+    -->
+
+    <property name="uuidType" value="CHAR(36)"/>
+    <property name="dateTimeType" value="DATETIME(6)"/>
+
+    <changeSet id="20231023180002" author="TJOLO">
+        <preConditions>
+            <not>
+                <tableExists tableName="PRODUCT"/>
+            </not>
+        </preConditions>
+        <comment>Creates the PRODUCT table</comment>
+        <createTable tableName="PRODUCT"
+          remarks="Holds the available product">
+            <column name="ID"
+              type="${uuidType}"
+              remarks="Identifies the given product">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PRODUCT_PK"/>
+            </column>
+            <column name="NAME"
+              type="VARCHAR(256)"
+              remarks="The product name">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION"
+              type="VARCHAR(256)"
+              remarks="The product description">
+                <constraints nullable="false"/>
+            </column>
+            <column name="QUANTITY"
+              type="BIGINT"
+              remarks="The product quantity">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE_PRODUCT"
+              type="VARCHAR(64)"
+              remarks="The product type">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRICE"
+              type="DECIMAL(10,2)"
+              remarks="The product price">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE_STATUS"
+              type="VARCHAR(64)"
+              remarks="The product status">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATE_REGISTER"
+              type="${dateTimeType}"
+              remarks="When the product was created within the system">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci"/>
+        </modifySql>
+    </changeSet>
+</databaseChangeLog>

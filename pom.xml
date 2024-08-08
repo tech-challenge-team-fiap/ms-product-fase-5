@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.2.5</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<groupId>br.com.fiap.techchallenge</groupId>
+	<artifactId>tech-challenge-product</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>tech-challenge-product</name>
+	<description>Tech challenge - Product</description>
+
+	<properties>
+		<java.version>17</java.version>
+		<mysql.connector.version>8.0.33</mysql.connector.version>
+		<jakarta.persistence.version>3.1.0</jakarta.persistence.version>
+		<org.mockito.version>5.3.1</org.mockito.version>
+		<org.springdoc.version>2.5.0</org.springdoc.version>
+		<ulid-creator.version>3.1.0</ulid-creator.version>
+		<com.google.guava.version>32.1.2-jre</com.google.guava.version>
+		<io.hypersistence.version>3.5.1</io.hypersistence.version>
+		<zalando.version>0.29.1</zalando.version>
+		<mockserver.verion>5.11.2</mockserver.verion>
+		<sonar.organization>tech-challenge-team-fiap</sonar.organization>
+  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.coverage.jacoco.xmlReportPaths>
+    			../target/site/jacoco/jacoco.xml
+  		</sonar.coverage.jacoco.xmlReportPaths>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${org.springdoc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.f4b6a3</groupId>
+			<artifactId>ulid-creator</artifactId>
+			<version>${ulid-creator.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${com.google.guava.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.hypersistence</groupId>
+			<artifactId>hypersistence-utils-hibernate-62</artifactId>
+			<version>${io.hypersistence.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.connector.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.zalando</groupId>
+			<artifactId>problem-spring-web</artifactId>
+			<version>${zalando.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>${jakarta.persistence.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>${org.mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webflux</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mock-server</groupId>
+			<artifactId>mockserver-netty</artifactId>
+			<version>${mockserver-version}</version> <!-- Verifique a versão mais recente -->
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>3.1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mock-server</groupId>
+			<artifactId>mockserver-client-java</artifactId>
+			<version>5.11.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mock-server</groupId>
+			<artifactId>mockserver-netty</artifactId>
+			<version>5.11.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+		<dependency>
+    			<groupId>org.jacoco</groupId>
+    			<artifactId>jacoco-maven-plugin</artifactId>
+    			<version>0.8.12</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>mysql</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<testDatabaseSpecified>true</testDatabaseSpecified>
+				<testDatabase>mysql-8</testDatabase>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+                		<groupId>org.jacoco</groupId>
+                		<artifactId>jacoco-maven-plugin</artifactId>
+                		<version>0.8.7</version>
+                		<executions>
+                   			 <execution>
+                        			<id>prepare-agent</id>
+                        			<goals>
+                            				<goal>prepare-agent</goal>
+                        			</goals>
+                    			</execution>
+                    			<execution>
+                        			<id>report</id>
+                        			<goals>
+                            				<goal>report</goal>
+                        			</goals>
+                        			<configuration>
+                            				<formats>
+                                				<format>XML</format>
+                            				</formats>
+							<excludes>
+								<exclude>**/external/config/*</exclude>
+								<exclude>**/domain/type/*</exclude>
+								<exclude>**/techchallengeproduct/TechChallengeProductApplication.java</exclude>
+							</excludes>
+                        			</configuration>
+                    			</execution>
+                		</executions>
+            		</plugin>
+		</plugins>
+		<finalName>tech-challenge-product-docker</finalName>
+	</build>
+
+</project>
